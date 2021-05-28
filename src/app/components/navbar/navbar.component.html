@@ -1,0 +1,8 @@
+<mat-toolbar fxLayout="row" color="primary">
+  <span fxFlex> bar </span>
+  <button mat-button *ngFor="let item of menuItems" fxHide.lg>
+    <mat-icon>{{item.icon}}</mat-icon>
+    {{item.label}}
+  </button>
+
+</mat-toolbar>
