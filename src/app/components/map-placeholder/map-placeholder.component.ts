@@ -17,14 +17,14 @@ export class MapPlaceholderComponent implements AfterViewInit, OnDestroy {
     readonly mapService: MapService) { }
 
     ngAfterViewInit(): void {
-      this.mapService.initDefaultMap(this.mapElementRef);
-      this.mapService.addAllMapWidgets();
+      // this.mapService.initDefaultMap(this.mapElementRef);
+      // this.mapService.addAllMapWidgets();
     }
 
     ngOnDestroy(): void {
-      if (this.mapService.mapView) {
-        this.mapService.mapView.destroy();
-      }
+      // if (this.mapService.mapView) {
+      //   this.mapService.mapView.destroy();
+      // }
     }
 
 }
