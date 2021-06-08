@@ -4,7 +4,11 @@ import WebMap from '@arcgis/core/WebMap';
 import { Observable, ReplaySubject } from 'rxjs';
 import {WebMapDocument} from '../../interfaces/webmap-document'
 import { EnvironmentService } from '../../services/environment.service'
-
+import BasemapToggle from '@arcgis/core/widgets/BasemapToggle';
+import Zoom from '@arcgis/core/widgets/Zoom';
+import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
+import EsriConfig from '@arcgis/core/config'
+import LayerList from '@arcgis/core/widgets/LayerList';
 
 @Injectable({
   providedIn: 'root',
@@ -18,22 +22,39 @@ export class MapFactory{
     private mapViewContainer!: HTMLDivElement;
     private mapViewSubject!: ReplaySubject<MapView>;
 
+    private vec!: VectorTileLayer;
+    private layerList!: LayerList;
+
   constructor(
     private rendererFactory:RendererFactory2,
     private environment:EnvironmentService
     ){
     // makes the mapview 'revisitable' with the replaysubject(stores old values)
     this.mapViewSubject = new ReplaySubject<MapView>(1)
+
+    
   }
+  
 
   public getMapView():Observable<MapView>{
     return this.mapViewSubject.asObservable()
   }
 
   public initializeMapView(elementRef:ElementRef):MapView{
+    // create container
     this.createMapViewContainer(elementRef)
+    // create webmap / basemap
     this.createWebMap();
-    this.createMapView();
+
+    // add layer
+    // this.addCustomLayer(this.webMap)
+
+    // use webmap inside mapview
+    this.createMapView(this.webMap);
+    // adding widgets 
+    this.addAllMapWidgets()
+
+    
     this.mapViewSubject.next(this.mapView);
     return this.mapView
   }
@@ -49,6 +70,8 @@ export class MapFactory{
   }
 
   private createWebMap(): void {
+    EsriConfig.apiKey = "AAPKd353f70381984bfc8953135f2999d688DrHE6ez62C3Gh4MbaqaKeayxF10u1QqZ8I9XWZP7dLPAf-Cp1Lx7Ak0TzAYstv8t"
+
     if (this.webMap == null) {
 
         // The JSON from NgRx is immutable the WebMap.fromJSON() validates the JSON
@@ -64,7 +87,7 @@ export class MapFactory{
 
   }
 
-  private createMapView(): void {
+  private createMapView(webmap:WebMap): void {
     if (this.mapView == null) {
         this.mapView = new MapView(
             {
@@ -78,6 +101,17 @@ export class MapFactory{
             }
         );
     }
+
+    this.vec = new VectorTileLayer({
+      url: "https://vectortileservices3.arcgis.com/LrsJEcY70feoykZ9/arcgis/rest/services/jerstatemapsimple_gdb1/VectorTileServer"
+    })
+    this.layerList = new LayerList({
+      view: this.mapView
+    })
+    webmap.add(this.vec)
+
+    this.mapView.ui.add(this.layerList, this.environment.baseConfigs.defaultMapSettings.widgets.zoom.position);
+
   }
 
   private initializeRenderer(): void {
@@ -90,6 +124,29 @@ export class MapFactory{
     if (this.mapViewContainer == null) { return; }
     this.initializeRenderer();
     this.renderer.removeChild(elementRef.nativeElement, this.mapViewContainer);
+  }
+
+  public addAllMapWidgets(): void {
+    const basemapToggle = new BasemapToggle({
+      view: this.mapView,
+      nextBasemap: this.environment.baseConfigs.defaultMapSettings.widgets.basemapToggle.nextBasemap,
+    });
+
+    // const layerList = new LayerList({
+    //   view: this.mapView
+    // })
+
+    const zoom = new Zoom({
+      view: this.mapView,
+    });
+
+    this.mapView?.ui.add(basemapToggle, this.environment.baseConfigs.defaultMapSettings.widgets.basemapToggle.position);
+    // this.mapView?.ui.add(layerList, this.environment.baseConfigs.defaultMapSettings.widgets.basemapToggle.position);
+    // this.mapView?.ui.add(layerList, this.environment.baseConfigs.defaultMapSettings.widgets.zoom.position);
+  }
+
+  public addCustomLayer(webmap:WebMap):void{
+    
   }
 
 }
