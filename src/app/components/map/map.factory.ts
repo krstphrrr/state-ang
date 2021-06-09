@@ -9,6 +9,7 @@ import Zoom from '@arcgis/core/widgets/Zoom';
 import VectorTileLayer from '@arcgis/core/layers/VectorTileLayer';
 import EsriConfig from '@arcgis/core/config'
 import LayerList from '@arcgis/core/widgets/LayerList';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +23,7 @@ export class MapFactory{
     private mapViewContainer!: HTMLDivElement;
     private mapViewSubject!: ReplaySubject<MapView>;
 
-    private vec!: VectorTileLayer;
+    private feature!: FeatureLayer;
     private layerList!: LayerList;
 
   constructor(
@@ -102,13 +103,14 @@ export class MapFactory{
         );
     }
 
-    this.vec = new VectorTileLayer({
-      url: "https://vectortileservices3.arcgis.com/LrsJEcY70feoykZ9/arcgis/rest/services/jerstatemapsimple_gdb1/VectorTileServer"
+    this.feature= new FeatureLayer({
+      url:"https://services3.arcgis.com/LrsJEcY70feoykZ9/arcgis/rest/services/JERStateMapSimple_gdb/FeatureServer/0"
     })
+
     this.layerList = new LayerList({
       view: this.mapView
     })
-    webmap.add(this.vec)
+    webmap.add(this.feature)
 
     this.mapView.ui.add(this.layerList, this.environment.baseConfigs.defaultMapSettings.widgets.zoom.position);
 
