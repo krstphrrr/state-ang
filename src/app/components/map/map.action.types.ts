@@ -1,4 +1,5 @@
 export enum MapActionTypes {
+  TestMapAction = 'TEST_MAP_ACTION',
   GetWebMap = 'GET_WEBMAP',
   GetWebMapCompleted = 'GET_WEBMAP_COMPLETED',
   GetWebMapError = 'GET_WEBMAP_ERROR',

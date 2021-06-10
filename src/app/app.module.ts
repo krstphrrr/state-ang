@@ -13,6 +13,8 @@ import { SidenavListComponent } from './components/sidenav-list/sidenav-list.com
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MapComponent } from './components/map/map.component';
 import { MapContentsComponent } from './components/map/map-contents/map-contents.component';
+import { StoreModule } from '@ngrx/store';
+import { mapReducer } from './components/map/map.reducer';
 
 
 @NgModule({
@@ -32,6 +34,7 @@ import { MapContentsComponent } from './components/map/map-contents/map-contents
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
+    StoreModule.forRoot({ui: mapReducer}),
 
   ],
   providers: [],

@@ -1,28 +1,28 @@
 import { Action, createReducer, on} from '@ngrx/store'
 
 
-//ACTIONS
+// //ACTIONS
 
-export interface MapState {
-  status: ServiceStatus;
-  // webMap?: WebMapDocument;
-  mapViewProperties?: MapViewProperties;
-  sidenav?: {
-      opened: boolean,
-      path: string
-  };
-}
+// export interface MapState {
+//   status: ServiceStatus;
+//   // webMap?: WebMapDocument;
+//   mapViewProperties?: MapViewProperties;
+//   sidenav?: {
+//       opened: boolean,
+//       path: string
+//   };
+// }
 
-interface State {
-  isLoading: boolean
-}
-const initialState = {
-  isLoading: false
-}
-export function appReducer(state = initialState, action: Action){
+// interface State {
+//   isLoading: boolean
+// }
+// const initialState = {
+//   isLoading: false
+// }
+// export function appReducer(state = initialState, action: Action){
   
-}
-const reducer = createReducer(
-  initialState,
-  on(MapActions)
-)
+// }
+// const reducer = createReducer(
+//   initialState,
+//   on(MapActions)
+// )

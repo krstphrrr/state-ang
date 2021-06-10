@@ -1,19 +1,36 @@
-import { Action, createReducer, on} from '@ngrx/store'
+
 import * as MapActions from './map.actions'
 import { MapViewProperties } from '../../interfaces/map-view-properties';
+import { MapState } from './map.state'
+import { ServiceStatus, ServiceStatusTypes } from './map.state'
+import { Action, createReducer, on } from '@ngrx/store';
 
-export function appReducer(state = initialState, action: Action){
-  
+const initialState: MapState = {
+  status: new ServiceStatus(ServiceStatusTypes.content)
+};
+
+
+export function mapReducer(state = initialState, action: Action): MapState {
+  return reducer(state, action);
 }
+
+
 const reducer = createReducer(
   initialState,
-  on(MapActions)
+  on(MapActions.GetWebMap, (state,action)=>{
+    return updateServiceStatus(state, ServiceStatusTypes.loading)
+  }),
+
+  on(MapActions.TestToggle, (state, action)=>{
+    return updateServiceStatus(state,ServiceStatusTypes.content)
+  })
 )
 
-export function appReducer(state = initialState, action: Action){
-  
+function updateServiceStatus(
+  state: MapState, 
+  type: ServiceStatusTypes, 
+  error?: any): MapState {
+    console.log("1. action")
+    console.log(state)
+  return { ...state, status: new ServiceStatus(type, error) };
 }
-const reducer = createReducer(
-  initialState,
-  on(MapActions)
-)

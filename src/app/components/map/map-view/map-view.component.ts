@@ -6,12 +6,15 @@ import { EnvironmentService } from 'src/app/services/environment.service';
 import { MapService } from 'src/app/services/map.service';
 import { MapFactory } from '../map.factory'
 
+
 @Component({
   selector: 'app-map-view',
   templateUrl: './map-view.component.html',
   styleUrls: ['./map-view.component.sass']
 })
 export class MapViewComponent implements AfterViewInit, OnDestroy, OnInit {
+  
+
   @ViewChild('mapView', { static: false})
   mapElementRef!: ElementRef;
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -20,9 +23,11 @@ export class MapViewComponent implements AfterViewInit, OnDestroy, OnInit {
     readonly environment: EnvironmentService,
     readonly mapService: MapService,
     private mapFactory: MapFactory,
+
     ) { }
 
     ngOnInit(){
+      
       
     }
 
