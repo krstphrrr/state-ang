@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { MapComponent} from './components/map/map.component'
 import { WelcomeComponent } from './components/welcome/welcome.component'
 import { MapContentsComponent } from './components/map/map-contents/map-contents.component'
+import { AboutComponent } from './components/about/about.component';
+import { TestComponent } from './components/test/test.component';
 
 const routes: Routes = [
   {
@@ -11,6 +13,20 @@ const routes: Routes = [
     data: {
         label: 'Home'
     }
+},
+{
+  path: 'about',
+  component: AboutComponent,
+  data: {
+    label: 'About'
+  }
+},
+{
+  path: 'test',
+  component: TestComponent,
+  data: {
+    label: 'Test'
+  }
 },
 {
     path: 'map',

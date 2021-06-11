@@ -21,10 +21,22 @@ const reducer = createReducer(
     return updateServiceStatus(state, ServiceStatusTypes.loading)
   }),
 
+  on(MapActions.GetWebMapCompleted, (state, action) => {
+    return addWebMapToState(state, action.webMapDocument);
+  }),
+
   on(MapActions.TestToggle, (state, action)=>{
     return updateServiceStatus(state,ServiceStatusTypes.content)
   })
 )
+
+function addWebMapToState(state: MapState, webMap: any): MapState {
+  return {
+      ...state,
+      status: new ServiceStatus(ServiceStatusTypes.content),
+      webMap: webMap
+  };
+}
 
 function updateServiceStatus(
   state: MapState, 

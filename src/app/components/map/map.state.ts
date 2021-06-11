@@ -32,7 +32,7 @@ export class ServiceStatus {
 
 export interface MapState {
     status: ServiceStatus;
-    // webMap?: WebMapDocument;
+    webMap?: WebMapDocument;
     // mapViewProperties?: MapViewProperties;
     // sidenav?: {
         // opened: boolean,
